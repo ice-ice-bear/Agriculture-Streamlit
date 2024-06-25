@@ -135,7 +135,6 @@ for file_info in json_files:
 folium_static(m)
 
 def plot_risk_area_grades(df):
-    import matplotlib.pyplot as plt
 
     plt.rcParams['font.family'] = 'Malgun Gothic'
     plt.rcParams['axes.unicode_minus'] = False

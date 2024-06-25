@@ -6,3 +6,4 @@ pandas
 streamlit
 folium
 streamlit-folium
+pyproj
