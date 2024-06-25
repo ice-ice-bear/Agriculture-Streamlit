@@ -2,9 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 import folium
-import requests
+import json
+from pyproj import Transformer
 from streamlit_folium import folium_static
-from io import BytesIO
+import requests
 
 # Function to get latitude and longitude from an address
 def lat_long(address, rest_api_key):
@@ -34,14 +35,13 @@ st.title("재해위험지구 지도시각화 sample")
 
 address = st.text_input("주소지를 입력해주세요:")
 
-# REST API key 프로젝트 상 일단 해당키로 보이는데 곧 수정할겁니다.
+
 rest_api_key = 'bf0070cbed9ecd623aeead721c91397b'
 
-# csv 경로
-csv_file_path = './data/crisis_address(utf-8).csv'  # Replace with your actual CSV file path
+# Load CSV data
+csv_file_path = './data/crisis_address(utf-8).csv'
 df = pd.read_csv(csv_file_path)
 
-# 재해위험지구유형에 따른 색상 설정
 color_map = {
     1: 'blue',
     2: 'purple',
@@ -58,6 +58,7 @@ else:
 
 m = folium.Map(location=[address_y, address_x], zoom_start=15 if address else 8)
 
+# Add circles from CSV data
 for i, row in df.iterrows():
     if pd.notnull(row['y']) and pd.notnull(row['x']) and pd.notnull(row['DSGN_AREA']):
         popup_content = f"""
@@ -88,10 +89,56 @@ for i, row in df.iterrows():
 if address:
     mark_address_on_map(address, m, rest_api_key)
 
+# Adding polygons from JSON files
+json_files = [
+    {'path': './data/전라남도_나주시_노안면_학산리_논.json', 'color': 'yellow'},
+    {'path': './data/전라남도_나주시_노안면_학산리_밭.json', 'color': 'green'},
+    {'path': './data/전라남도_나주시_노안면_학산리_과수.json', 'color': 'red'},
+    {'path': './data/전라남도_나주시_노안면_학산리_비경지.json', 'color': 'brown'},
+    {'path': './data/전라남도_나주시_노안면_학산리_시설', 'color': 'gray'}
+]
+
+# Initialize the coordinate transformer (example: from EPSG:5179 to EPSG:4326)
+transformer = Transformer.from_crs("EPSG:5179", "EPSG:4326")
+
+# Process each JSON file
+for file_info in json_files:
+    with open(file_info['path'], encoding='utf-8') as f:
+        data = json.load(f)
+
+    # Extract the coordinates from the JSON data and convert them to lat/lon
+    coordinates_list = []
+    for item in data['output']['farmmapData']['data']:
+        polygon_info = {
+            'uid': item['uid'],
+            'pnu': item['pnu'],
+            'coordinates': []
+        }
+        for geometry in item['geometry']:
+            coordinates = [(transformer.transform(coord['y'], coord['x'])) for coord in geometry['xy']]
+            polygon_info['coordinates'].append(coordinates)
+        coordinates_list.append(polygon_info)
+
+    # Add polygons to the map with popup info and different colors
+    for polygon_info in coordinates_list:
+        for coordinates in polygon_info['coordinates']:
+            folium.Polygon(
+                locations=coordinates, 
+                color=file_info['color'], 
+                weight=2, 
+                fill=True, 
+                fill_color=file_info['color'],
+                popup=f"UID: {polygon_info['uid']}<br>PNU: {polygon_info['pnu']}"
+            ).add_to(m)
+
+# Display the map in the Streamlit app
 folium_static(m)
 
 def plot_risk_area_grades(df):
     import matplotlib.pyplot as plt
+
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
     
     grouped = df.groupby(['DST_RSK_DSTRCT_TYPE_CD', 'DST_RSK_DSTRCT_GRD_CD']).size().reset_index(name='count')
 
@@ -107,4 +154,3 @@ def plot_risk_area_grades(df):
     st.pyplot(fig)
 
 plot_risk_area_grades(df)
-
