@@ -95,7 +95,7 @@ json_files = [
     {'path': './data/전라남도_나주시_노안면_학산리_밭.json', 'color': 'green'},
     {'path': './data/전라남도_나주시_노안면_학산리_과수.json', 'color': 'red'},
     {'path': './data/전라남도_나주시_노안면_학산리_비경지.json', 'color': 'brown'},
-    {'path': './data/전라남도_나주시_노안면_학산리_시설', 'color': 'gray'}
+    {'path': './data/전라남도_나주시_노안면_학산리_시설.json', 'color': 'gray'}
 ]
 
 # Initialize the coordinate transformer (example: from EPSG:5179 to EPSG:4326)
