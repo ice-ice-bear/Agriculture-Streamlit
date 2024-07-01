@@ -11,13 +11,13 @@ import datetime
 
 
 
-# Base URL for the financial records API
-base_url = 'http://localhost:8080/api/financial-records'
+# # Base URL for the financial records API
+# base_url = 'http://localhost:8080/api/financial-records'
 
 # Add record
 def add_record_page():
     st.subheader("수입 및 지출 기록 추가")
-    record_type = st.selectbox("유형", ["income", "expense"])
+    record_type = st.selectbox("유형", ("income", "expense"))
     category = st.text_input("카테고리")
     amount = st.number_input("금액", min_value=0.0, format="%.2f")
     date = st.date_input("날짜", datetime.date.today())
