@@ -124,7 +124,7 @@ def mark_address_on_map(address, folium_map, rest_api_key):
 # Streamlit UI
 st.title("재해위험지구 지도시각화 sample")
 
-address = st.text_input("주소지를 입력해주세요:", value='전남 나주시 남평읍 지석로 167')
+address = st.text_input("주소지를 입력해주세요:", value='전남 나주시 노안면 학산길 70-17')
 
 
 rest_api_key = 'bf0070cbed9ecd623aeead721c91397b'
