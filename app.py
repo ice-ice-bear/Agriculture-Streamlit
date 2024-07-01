@@ -9,7 +9,7 @@ import requests
 import platform
 
 # Set the font family globally
-plt.rcParams['font.family'] = 'NanumGothic'
+plt.rcParams['font.family'] = 'Malgun Gothic'
 
 # Base URL for the financial records API
 base_url = 'http://localhost:8080/api/financial-records'
