@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 import seaborn as sns
 import streamlit as st
 import folium
@@ -90,6 +91,11 @@ import datetime
 #             st.error("기록 삭제 실패")
 
 # delete_record_page()
+
+# Load Korean font
+font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+font_name = fm.FontProperties(fname=font_path).get_name()
+plt.rc('font', family=font_name)
 
 # Function to get latitude and longitude from an address
 def lat_long(address, rest_api_key):
