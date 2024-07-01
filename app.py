@@ -9,10 +9,8 @@ import requests
 import platform
 import datetime
 
-
-
-# # Base URL for the financial records API
-# base_url = 'http://localhost:8080/api/financial-records'
+# Base URL for the financial records API
+base_url = 'http://localhost:8080/api/financial-records'
 
 # Add record
 def add_record_page():
