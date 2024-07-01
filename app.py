@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 import streamlit as st
 import folium
 import json
@@ -258,21 +259,30 @@ def make_additional_plot(df):
     risk_factor_content.columns = ['District Name', 'Risk Factor Content']
 
     # Streamlit app
-    st.title("Crisis Address df Analysis")
+    st.title("기타 재해위험 지구정보")
 
-    st.header("Count of Districts by Grade Code")
-    st.dataframe(grade_count)
+    st.header("재해등급 코드 빈도")
+    fig1, ax1 = plt.subplots()
+    ax1.pie(grade_count['Count'], labels=grade_count['Grade Code'], autopct='%1.1f%%', startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig1)
+    
+    st.header("유형 코드별 재해 지구 수")
+    fig2, ax2 = plt.subplots()
+    sns.histplot(data=type_count, x='Type Code', weights='Count', bins=range(1, 8), kde=False, ax=ax2)
+    st.pyplot(fig2)
 
-    st.header("Count of Districts by Type Code")
-    st.dataframe(type_count)
+    st.header("재해 위험지구 지정사유 및 빈도")
+    fig3, ax3 = plt.subplots()
+    sns.boxplot(y='Designation Reason', x='Count', data=designation_reasons_count, ax=ax3)
+    st.pyplot(fig3)
+    
+    st.header("지구별 총 지정 면적")
+    fig4, ax4 = plt.subplots()
+    sns.scatterplot(x='Total Designation Area', y='District Name', data=total_designation_area, ax=ax4)
+    st.pyplot(fig4)
 
-    st.header("Designation Reasons and Their Counts")
-    st.dataframe(designation_reasons_count)
-
-    st.header("Total Designation Area by District")
-    st.dataframe(total_designation_area)
-
-    st.header("Risk Factor Content Grouped by District")
+    st.header("지역별 그룹화된 위험 요인")
     st.dataframe(risk_factor_content)
 
 
