@@ -270,3 +270,5 @@ def make_additional_plot(df):
 
 
 plot_risk_area_grades(df)
+
+make_additional_plot(df)
