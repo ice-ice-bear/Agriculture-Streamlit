@@ -222,7 +222,8 @@ def plot_risk_area_grades(df):
     
     fig, ax = plt.subplots(figsize=(12, 6))
     pivot_table.plot(kind='bar', ax=ax)
-    ax.set_title('재해위험지구 유형에 따른 재해 등급')
+    # ax.set_title('재해위험지구 유형에 따른 재해 등급')
+    st.title("재해위험지구 유형에 따른 재해 등급")
     ax.set_xlabel('DST_RSK_DSTRCT_GRD_CD')
     ax.set_ylabel('Count')
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
