@@ -7,6 +7,79 @@ from pyproj import Transformer
 from streamlit_folium import folium_static
 import requests
 
+# Base URL for the financial records API
+base_url = 'http://localhost:8080/api/financial-records'
+
+# Add record
+def add_record_page():
+    st.subheader("수입 및 지출 기록 추가")
+    record_type = st.selectbox("유형", ["income", "expense"])
+    category = st.text_input("카테고리")
+    amount = st.number_input("금액", min_value=0.0, format="%.2f")
+    date = st.date_input("날짜", datetime.date.today())
+    description = st.text_area("설명")
+    if st.button("추가"):
+        record = {
+            "type": record_type,
+            "category": category,
+            "amount": amount,
+            "date": date.isoformat(),
+            "description": description
+        }
+        response = requests.post(base_url, json=record)
+        if response.status_code == 201:
+            st.success("기록이 추가되었습니다.")
+        else:
+            st.error("기록 추가 실패")
+
+# View
+def view_records_page():
+    st.subheader("기록 조회")
+    start_date = st.date_input("시작 날짜", datetime.date.today() - datetime.timedelta(days=30))
+    end_date = st.date_input("종료 날짜", datetime.date.today())
+    if st.button("조회"):
+        response = requests.get(base_url, params={"startDate": start_date.isoformat(), "endDate": end_date.isoformat()})
+        if response.status_code == 200:
+            records = response.json()
+            df = pd.DataFrame(records)
+            st.dataframe(df)
+        else:
+            st.error("기록 조회 실패")
+
+# Update
+def update_record_page():
+    st.subheader("기록 수정")
+    record_id = st.number_input("기록 ID", min_value=1)
+    record_type = st.selectbox("유형", ["income", "expense"])
+    category = st.text_input("카테고리")
+    amount = st.number_input("금액", min_value=0.0, format="%.2f")
+    date = st.date_input("날짜", datetime.date.today())
+    description = st.text_area("설명")
+    if st.button("수정"):
+        record = {
+            "type": record_type,
+            "category": category,
+            "amount": amount,
+            "date": date.isoformat(),
+            "description": description
+        }
+        response = requests.put(f"{base_url}/{record_id}", json=record)
+        if response.status_code == 200:
+            st.success("기록이 수정되었습니다.")
+        else:
+            st.error("기록 수정 실패")
+
+# Delete
+def delete_record_page():
+    st.subheader("기록 삭제")
+    record_id = st.number_input("기록 ID", min_value=1)
+    if st.button("삭제"):
+        response = requests.delete(f"{base_url}/{record_id}")
+        if response.status_code == 204:
+            st.success("기록이 삭제되었습니다.")
+        else:
+            st.error("기록 삭제 실패")
+
 # Function to get latitude and longitude from an address
 def lat_long(address, rest_api_key):
     url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address
