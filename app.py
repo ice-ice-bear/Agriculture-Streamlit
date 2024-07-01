@@ -56,7 +56,7 @@ view_records_page()
 def update_record_page():
     st.subheader("기록 수정")
     record_id = st.number_input("기록 ID", min_value=1)
-    record_type = st.selectbox("유형", ["income", "expense"])
+    record_type = st.selectbox("유형", ("income", "expense"))
     category = st.text_input("카테고리")
     amount = st.number_input("금액", min_value=0.0, format="%.2f")
     date = st.date_input("날짜", datetime.date.today())
