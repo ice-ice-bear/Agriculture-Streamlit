@@ -279,14 +279,16 @@ def make_additional_plot(df):
     st.pyplot(fig2)
 
     st.header("재해 위험지구 지정사유 및 빈도")
-    fig3, ax3 = plt.subplots()
-    sns.boxplot(y='Designation Reason', x='Count', data=designation_reasons_count, ax=ax3)
-    st.pyplot(fig3)
+    st.dataframe(designation_reasons_count)
+    # fig3, ax3 = plt.subplots()
+    # sns.boxplot(y='Designation Reason', x='Count', data=designation_reasons_count, ax=ax3)
+    # st.pyplot(fig3)
     
     st.header("지구별 총 지정 면적")
-    fig4, ax4 = plt.subplots()
-    sns.scatterplot(x='Total Designation Area', y='District Name', data=total_designation_area, ax=ax4)
-    st.pyplot(fig4)
+    st.dataframe(total_designation_area)
+    # fig4, ax4 = plt.subplots()
+    # sns.scatterplot(x='Total Designation Area', y='District Name', data=total_designation_area, ax=ax4)
+    # st.pyplot(fig4)
 
     st.header("지역별 그룹화된 위험 요인")
     st.dataframe(risk_factor_content)
