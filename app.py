@@ -93,7 +93,8 @@ import datetime
 # delete_record_page()
 
 # Load Korean font
-font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+# font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+font_path ='/Library/Fonts/NanumBarunpenRegular.otf'
 font_name = fm.FontProperties(fname=font_path).get_name()
 plt.rc('font', family=font_name)
 
