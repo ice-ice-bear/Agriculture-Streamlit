@@ -35,6 +35,8 @@ def add_record_page():
         else:
             st.error("기록 추가 실패")
 
+add_record_page()
+
 # View
 def view_records_page():
     st.subheader("기록 조회")
@@ -48,6 +50,8 @@ def view_records_page():
             st.dataframe(df)
         else:
             st.error("기록 조회 실패")
+
+view_records_page()
 
 # Update
 def update_record_page():
@@ -72,6 +76,8 @@ def update_record_page():
         else:
             st.error("기록 수정 실패")
 
+update_record_page()
+
 # Delete
 def delete_record_page():
     st.subheader("기록 삭제")
@@ -95,6 +101,8 @@ def lat_long(address, rest_api_key):
     except Exception as e:
         st.error(f"Error: {e}")
         return None, None
+    
+delete_record_page()
 
 # Function to mark an address on the map
 def mark_address_on_map(address, folium_map, rest_api_key):
