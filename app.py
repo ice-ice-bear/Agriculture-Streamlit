@@ -229,4 +229,44 @@ def plot_risk_area_grades(df):
 
     st.pyplot(fig)
 
+def make_additional_plot(df):
+    # Count of districts by grade code
+    grade_count = df['DST_RSK_DSTRCT_GRD_CD'].value_counts().reset_index()
+    grade_count.columns = ['Grade Code', 'Count']
+
+    # Count of districts by type code
+    type_count = df['DST_RSK_DSTRCT_TYPE_CD'].value_counts().reset_index()
+    type_count.columns = ['Type Code', 'Count']
+
+    # Designation reasons and their counts
+    designation_reasons_count = df['DSGN_RSN'].value_counts().reset_index()
+    designation_reasons_count.columns = ['Designation Reason', 'Count']
+
+    # Total designation area by district
+    total_designation_area = df.groupby('DST_RSK_DSTRCT_NM')['DSGN_AREA'].sum().reset_index()
+    total_designation_area.columns = ['District Name', 'Total Designation Area']
+
+    # Risk factor content grouped by district
+    risk_factor_content = df.groupby('DST_RSK_DSTRCT_NM')['RSK_FACTR_CN'].apply(lambda x: ' | '.join(x.dropna())).reset_index()
+    risk_factor_content.columns = ['District Name', 'Risk Factor Content']
+
+    # Streamlit app
+    st.title("Crisis Address df Analysis")
+
+    st.header("Count of Districts by Grade Code")
+    st.dfframe(grade_count)
+
+    st.header("Count of Districts by Type Code")
+    st.dfframe(type_count)
+
+    st.header("Designation Reasons and Their Counts")
+    st.dfframe(designation_reasons_count)
+
+    st.header("Total Designation Area by District")
+    st.dfframe(total_designation_area)
+
+    st.header("Risk Factor Content Grouped by District")
+    st.dfframe(risk_factor_content)
+
+
 plot_risk_area_grades(df)
