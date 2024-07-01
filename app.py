@@ -254,19 +254,19 @@ def make_additional_plot(df):
     st.title("Crisis Address df Analysis")
 
     st.header("Count of Districts by Grade Code")
-    st.dfframe(grade_count)
+    st.dataframe(grade_count)
 
     st.header("Count of Districts by Type Code")
-    st.dfframe(type_count)
+    st.dataframe(type_count)
 
     st.header("Designation Reasons and Their Counts")
-    st.dfframe(designation_reasons_count)
+    st.dataframe(designation_reasons_count)
 
     st.header("Total Designation Area by District")
-    st.dfframe(total_designation_area)
+    st.dataframe(total_designation_area)
 
     st.header("Risk Factor Content Grouped by District")
-    st.dfframe(risk_factor_content)
+    st.dataframe(risk_factor_content)
 
 
 plot_risk_area_grades(df)
