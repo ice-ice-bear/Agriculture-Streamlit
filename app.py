@@ -8,8 +8,7 @@ from streamlit_folium import folium_static
 import requests
 import platform
 
-# Set the font family globally
-plt.rcParams['font.family'] = 'Malgun Gothic'
+
 
 # Base URL for the financial records API
 base_url = 'http://localhost:8080/api/financial-records'
@@ -213,7 +212,8 @@ folium_static(m)
 
 def plot_risk_area_grades(df):
 
-    plt.rcParams['font.family'] = 'Malgun Gothic'
+    # Set the font family globally
+plt.rcParams['font.family'] = 'NanumGothic'
     plt.rcParams['axes.unicode_minus'] = False
     
     grouped = df.groupby(['DST_RSK_DSTRCT_TYPE_CD', 'DST_RSK_DSTRCT_GRD_CD']).size().reset_index(name='count')
