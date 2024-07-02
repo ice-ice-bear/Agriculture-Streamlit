@@ -24,21 +24,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Download and install Malgun Gothic font
+      - name: Download and install Malgun Nanumfont
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-nanum
           sudo fc-cache -fv
 
-      - name: Configure Matplotlib to use Malgun Gothic
+      - name: Configure Matplotlib to use NanumGothic
         run: |
           echo "import matplotlib.pyplot as plt" > setup_font.py
           echo "plt.rcParams['font.family'] = 'NanumGothic'" >> setup_font.py
           python setup_font.py
           rm setup_font.py
 
-      - name: Run Streamlit app
-        run: streamlit run app.py
+      # - name: Run Streamlit app
+      #   run: streamlit run app.py
+
+      - uses: streamlit/streamlit-app-action@v0.0.3
+        with:
+          app-path: app.py
+          ruff : True
 
       - name: Keep action running
         run: sleep 3600  # Keep the action running for an hour
