@@ -9,7 +9,6 @@ from pyproj import Transformer
 from streamlit_folium import folium_static
 import requests
 import platform
-import datetime
 
 # # Base URL for the financial records API
 # base_url = 'http://localhost:8080/api/financial-records'
