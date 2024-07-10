@@ -125,7 +125,7 @@ st.title("재해위험지구 지도시각화 sample")
 address = st.text_input("주소지를 입력해주세요:", value='전남 나주시 노안면 학산길 70-17')
 
 
-rest_api_key = 'bf0070cbed9ecd623aeead721c91397b'
+rest_api_key = 'your_rest_api_key'
 
 # Load CSV data
 csv_file_path = './data/crisis_address(utf-8).csv'
